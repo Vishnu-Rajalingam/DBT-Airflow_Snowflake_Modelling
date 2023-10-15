@@ -3,23 +3,62 @@ import pandas as pd
 # Snowflake connector libraries
 import snowflake.connector as snow
 from snowflake.connector.pandas_tools import write_pandas
+from access_keys_with_service_principle import load_secret 
 
 
 #Module to create the snowflake connection and return the connection objects
 def create_connection():
+
+   ##########-------------- Securely Access the snowflake Credentials from a cloud Key Store. This is could any Online Vault
+
+   snowflake_account = load_secret("snowflake-account")
+   snowflake_username = load_secret("snowflake-username")
+   snowflake_password = load_secret("snowflake-password")
+
+   print(snowflake_account)
+
    conn = snow.connect(
-      user="vishnurajalingam3",
-   password="Sanguine@93",
-   account="hsqvdpz-ug08744",
-   warehouse="COMPUTE_WH",
-   database="NETFLIX",
-   schema="NETFLIX_RAW"
+      user = snowflake_username,
+      password = snowflake_password,
+      account = snowflake_account,
+      warehouse="COMPUTE_WH",
+      database="NETFLIX",
+      schema="NETFLIX_RAW"
    )
    cursor = conn.cursor()
+   ##########-------------- Create a Database
    cursor.execute('CREATE DATABASE IF NOT EXISTS NETFLIX')
+
+   ##########-------------- Create a Database
    cursor.execute('USE DATABASE NETFLIX')
+
+   ##########-------------- Create a Schema Within the Database
    cursor.execute('CREATE SCHEMA IF NOT EXISTS NETFLIX_RAW')
+
+   ##########-------------- Change to the newly created Schema
    cursor.execute('USE SCHEMA NETFLIX_RAW')
+
+   ##########-------------- Now this newly created Database, Schema need a user who can Do the transformations in DBT
+   ##########-------------- We also need a dedicated role for this USER
+   ##########-------------- So we will create a new user and grant him transforamtion  rights
+
+   cursor.execute('USE ROLE ACCOUNTADMIN')
+   cursor.execute('CREATE ROLE IF NOT EXISTS transform')
+   cursor.execute('USE ROLE ACCOUNTADMIN')
+   cursor.execute('GRANT ROLE TRANSFORM TO ROLE ACCOUNTADMIN')
+   cursor.execute('GRANT OPERATE ON WAREHOUSE COMPUTE_WH TO ROLE TRANSFORM')
+
+   cursor.execute('''
+      CREATE USER IF NOT EXISTS dbt
+         PASSWORD='Sanguine@93'
+         LOGIN_NAME='dbt'
+         MUST_CHANGE_PASSWORD=FALSE
+         DEFAULT_WAREHOUSE='COMPUTE_WH'
+         DEFAULT_ROLE='transform'
+         DEFAULT_NAMESPACE='NETFLIX.NETFLIX_RAW'
+   ''')
+   cursor.execute('GRANT ROLE TRANSFORM to USER dbt')
+
    print('SQL Connection Created')
    return cursor,conn
 

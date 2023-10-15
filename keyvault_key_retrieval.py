@@ -1,18 +1,22 @@
 from azure.identity import DefaultAzureCredential
 from azure.keyvault.secrets import SecretClient
+from access_keys_with_service_principle import load_secret
 
-# Replace with your Azure Key Vault URL and the name of the secret you want to retrieve
-key_vault_url = "https://vrrgkv5.vault.azure.net"
-secret_name = "snowflake-account"
+print(load_secret("snowflake-account").value)
+print(type(load_secret("snowflake-account").value))
 
-# Create a SecretClient
-credential = DefaultAzureCredential()
-secret_client = SecretClient(vault_url=key_vault_url, credential=credential)
+# # Replace with your Azure Key Vault URL and the name of the secret you want to retrieve
+# key_vault_url = "https://vrrgkv5.vault.azure.net"
+# secret_name = "snowflake-account"
 
-# Retrieve the secret
-try:
-    secret = secret_client.get_secret(secret_name)
-    print(f"Secret name: {secret.name}")
-    print(f"Secret value: {secret.value}")
-except Exception as e:
-    print(f"Failed to retrieve the secret: {e}")
+# # Create a SecretClient
+# credential = DefaultAzureCredential()
+# secret_client = SecretClient(vault_url=key_vault_url, credential=credential)
+
+# # Retrieve the secret
+# try:
+#     secret = secret_client.get_secret(secret_name)
+#     print(f"Secret name: {secret.name}")
+#     print(f"Secret value: {secret.value}")
+# except Exception as e:
+#     print(f"Failed to retrieve the secret: {e}")
