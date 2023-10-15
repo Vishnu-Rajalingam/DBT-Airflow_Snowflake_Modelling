@@ -1,0 +1,24 @@
+[0m11:58:05.622502 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7fc5916729e0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7fc592e8b250>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7fc592e8b010>]}
+
+
+============================== 11:58:05.626405 | 2557d649-df18-462a-a9ec-6b6031dd61da ==============================
+[0m11:58:05.626405 [info ] [MainThread]: Running with dbt=1.6.0
+[0m11:58:05.627061 [debug] [MainThread]: running dbt with arguments {'introspect': 'True', 'write_json': 'True', 'log_path': 'logs', 'log_cache_events': 'False', 'profiles_dir': '/Users/vishnu/.dbt', 'static_parser': 'True', 'version_check': 'True', 'warn_error': 'None', 'invocation_command': 'dbt init movie_credits_analysis', 'partial_parse': 'True', 'log_format': 'default', 'fail_fast': 'False', 'send_anonymous_usage_stats': 'True', 'warn_error_options': 'WarnErrorOptions(include=[], exclude=[])', 'debug': 'False', 'use_experimental_parser': 'False', 'indirect_selection': 'eager', 'use_colors': 'True', 'cache_selected_only': 'False', 'target_path': 'None', 'quiet': 'False', 'printer_width': '80', 'no_print': 'None'}
+[0m11:58:05.628305 [debug] [MainThread]: Starter project path: /Users/vishnu/anaconda3/lib/python3.10/site-packages/dbt/include/starter_project
+[0m11:58:05.634675 [info ] [MainThread]: 
+Your new dbt project "movie_credits_analysis" was created!
+
+For more information on how to configure the profiles.yml file,
+please consult the dbt documentation here:
+
+  https://docs.getdbt.com/docs/configure-your-profile
+
+One more thing:
+
+Need help? Don't hesitate to reach out to us via GitHub issues or on Slack:
+
+  https://community.getdbt.com/
+
+Happy modeling!
+
+[0m11:58:05.635083 [info ] [MainThread]: Setting up your profile.

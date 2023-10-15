@@ -23,7 +23,7 @@ def create_connection():
    print('SQL Connection Created')
    return cursor,conn
 
-# Module to truncate the table if exists. This will ensure duplicate load doesn't happen
+# This is the module to truncate the table if exists. We don't want to duplicate data
 def truncate_table():
    cur,conn=create_connection()
    sql_titles = "TRUNCATE TABLE IF EXISTS TITLES"
@@ -35,9 +35,9 @@ def truncate_table():
 #Module to read csv file and load data in Snowflake. Table is created dynamically
 def load_data():
    cur,conn=create_connection()
-   titles_file = r"netflix_titles.csv" # <- Replace with your path.
-   titles_delimiter = "," # Replace if you're using a different delimiter.
-   credits_file=r"credits.csv"
+   titles_file = r"./data/netflix_titles.csv" 
+   titles_delimiter = "," 
+   credits_file=r"./data/credits.csv"
    credits_delimiter=","
 
    titles_df = pd.read_csv(titles_file, sep = titles_delimiter)
@@ -51,7 +51,6 @@ def load_data():
    print('Credits file loaded')
 
    cur = conn.cursor()
-
 
    # Close your cursor and your connection.
    cur.close()
