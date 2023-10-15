@@ -10,7 +10,6 @@ from access_keys_with_service_principle import load_secret
 def create_connection():
 
    ##########-------------- Securely Access the snowflake Credentials from a cloud Key Store. This is could any Online Vault
-   # hsqvdpz-ug08744
    snowflake_account = load_secret("snowflake-account")
    snowflake_username = load_secret("snowflake-username")
    snowflake_password = load_secret("snowflake-password")
@@ -62,7 +61,7 @@ def create_connection():
    print('SQL Connection Created')
    return cursor,conn
 
-# This is the module to truncate the table if exists. We don't want to duplicate data
+##########-------------- This is the module to truncate the table if exists. We don't want to duplicate data
 def truncate_table():
    cur,conn=create_connection()
    sql_titles = "TRUNCATE TABLE IF EXISTS TITLES"
@@ -71,7 +70,7 @@ def truncate_table():
    cur.execute(sql_credits)
    print('Tables truncated')
 
-#Module to read csv file and load data in Snowflake. Table is created dynamically
+##########-------------- Module to read csv file and load data in Snowflake. Table is created dynamically
 def load_data():
    cur,conn=create_connection()
    titles_file = r"./data/netflix_titles.csv" 
@@ -91,7 +90,7 @@ def load_data():
 
    cur = conn.cursor()
 
-   # Close your cursor and your connection.
+   ##########----------- Close your cursor and your connection.
    cur.close()
    conn.close()
 
@@ -99,5 +98,6 @@ print("Starting Script")
 truncate_table()
 load_data()
 
+##########-------------- Once the Data is loaded successfully in the Warehouse, We can now staert transforming the Data via DBT 
 
 
